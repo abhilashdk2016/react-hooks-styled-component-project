@@ -3,6 +3,7 @@ import React from 'react';
 import { FoodLabel } from '../Menu/FoodGrid';
 import { pizzaRed } from '../Styles/colors';
 import { Title } from '../Styles/title';
+import { formatPrice } from '../Data/FoodData';
 
 const Dialog = styled.div`
     width: 500px;
@@ -69,9 +70,7 @@ export const ConfirmButton = styled(Title)`
 `;
 
 const FoodDialog = ({openFood, setOpenFood, setOrders, orders}) => {
-    const order = {
-        name: openFood ? openFood.name : ''
-    }
+    const order = openFood ? { ...openFood } : {};
     return openFood ? <>
         <DialogShadow onClick={() => { setOpenFood(null) }}/>
         <Dialog>
@@ -80,7 +79,7 @@ const FoodDialog = ({openFood, setOpenFood, setOrders, orders}) => {
             </DialogBanner>
             <DialogContent />
             <DialogFooter>
-                <ConfirmButton onClick={() => { setOrders([...orders, order]); setOpenFood(null);}}>Add to Cart</ConfirmButton>
+<ConfirmButton onClick={() => { setOrders([...orders, order]); setOpenFood(null);}}>Add to Cart: ${openFood.price}</ConfirmButton>
             </DialogFooter>
         </Dialog>
     </> : null
