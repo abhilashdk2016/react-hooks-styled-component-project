@@ -4,7 +4,7 @@ import Navbar from './Navbar/Navbar';
 import { Banner } from './Banner/Banner';
 import Menu from './Menu/Menu';
 import FoodDialog from './FoodDialog/FoodDialog';
-
+import Order from './Order/Order';
 
 function App() {
 
@@ -18,6 +18,7 @@ function App() {
       </div>
       
       <Navbar />
+      <Order />
       <Banner />
       <Menu setOpenFood={setOpenFood} />
     </>
