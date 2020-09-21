@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { foodItems } from '../Data/FoodData';
+import { foods } from '../Data/FoodData';
 import { Food, FoodGrid, FoodLabel } from './FoodGrid';
 
 const MenuStyled = styled.div`
@@ -11,18 +11,22 @@ const MenuStyled = styled.div`
 const Menu = () => {
     return (
         <MenuStyled>
-            <h1>Menu</h1>
-            <FoodGrid>
-                {
-                    foodItems.map(food => (
-                        <Food img={food.img}>
-                            <FoodLabel>
-                                {food.name}
-                            </FoodLabel>
-                        </Food>
-                    ))
-                }
-            </FoodGrid>
+            {Object.entries(foods).map(([sectionName, foods]) => (
+                <>
+                    <h1>{sectionName}</h1>
+                    <FoodGrid>
+                        {
+                            foods.map(food => (
+                                <Food img={food.img}>
+                                    <FoodLabel>
+                                        {food.name}
+                                    </FoodLabel>
+                                </Food>
+                            ))
+                        }
+                    </FoodGrid>
+                </>
+            ))}
         </MenuStyled>
     );
 }

@@ -20,7 +20,7 @@ const Logo = styled(Title)`
 const Navbar = () => {
     return <NavbarStyled>
         <Logo>
-            Pizza's Anyone 🍕
+            Pizza's Anyone <span role="img" aria-label="pizza slice">🍕</span>
         </Logo>
     </NavbarStyled>
 }
