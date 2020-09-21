@@ -5,22 +5,20 @@ import { Banner } from './Banner/Banner';
 import Menu from './Menu/Menu';
 import FoodDialog from './FoodDialog/FoodDialog';
 import Order from './Order/Order';
-
+import { useOpenFood } from './Hooks/useOpenFood';
+import { useOrders } from './Hooks/useOrders';
 function App() {
 
-  const [openFood, setOpenFood] = useState();
-
+  const openFood = useOpenFood();
+  const orders = useOrders();
   return (
     <>
       <GlobalStyle />
-      <div style={{ transition: "all 8s" }}>
-        <FoodDialog openFood={openFood} setOpenFood={setOpenFood}/>
-      </div>
-      
+      <FoodDialog {...openFood} {...orders}/>
       <Navbar />
-      <Order />
+      <Order {...orders}/>
       <Banner />
-      <Menu setOpenFood={setOpenFood} />
+      <Menu {...openFood} />
     </>
     
   );

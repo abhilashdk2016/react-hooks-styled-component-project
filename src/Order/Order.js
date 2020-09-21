@@ -19,11 +19,18 @@ const OrderContent = styled(DialogContent)`
     height: 100%;
 `;
 
-const Order = () => {
+const Order = ({ orders}) => {
     return <OrderStyled>
-        <OrderContent>
-            Your order's looking pretty empty
-        </OrderContent>
+        {
+            orders.length === 0 
+                ? <OrderContent>
+                    Your order's looking pretty empty
+                  </OrderContent>
+                : <div>
+                   Found {orders.length} orders
+                </div>
+        }
+        
         <DialogFooter>
             <ConfirmButton>
                 Checkout

@@ -68,16 +68,19 @@ export const ConfirmButton = styled(Title)`
     background-color: ${pizzaRed}
 `;
 
-const FoodDialog = ({openFood, setOpenFood}) => {
+const FoodDialog = ({openFood, setOpenFood, setOrders, orders}) => {
+    const order = {
+        name: openFood ? openFood.name : ''
+    }
     return openFood ? <>
-        <DialogShadow onClick={() => { setOpenFood(null) } }/>
+        <DialogShadow onClick={() => { setOpenFood(null) }}/>
         <Dialog>
             <DialogBanner img={openFood.img}>
                 <DialogBannerName>{openFood.name}</DialogBannerName>
             </DialogBanner>
             <DialogContent />
             <DialogFooter>
-                <ConfirmButton>Add to Cart</ConfirmButton>
+                <ConfirmButton onClick={() => { setOrders([...orders, order]); setOpenFood(null);}}>Add to Cart</ConfirmButton>
             </DialogFooter>
         </Dialog>
     </> : null
