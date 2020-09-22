@@ -88,7 +88,7 @@ const FoodDialogContainer = ({openFood, setOpenFood, setOrders, orders}) => {
                 <QuantityInput quantity={quantity}/>
             </DialogContent>
             <DialogFooter>
-<ConfirmButton onClick={() => { setOrders([...orders, order]); setOpenFood(null);}}>Add to Cart: ${formatPrice(getPrice(order))}</ConfirmButton>
+<ConfirmButton onClick={() => { setOrders([...orders, order]); setOpenFood(null);}}>Add to Cart: {formatPrice(getPrice(order))}</ConfirmButton>
             </DialogFooter>
         </Dialog>
     </>
