@@ -3,7 +3,7 @@ import { GlobalStyle } from './Styles/globalStyle';
 import Navbar from './Navbar/Navbar';
 import { Banner } from './Banner/Banner';
 import Menu from './Menu/Menu';
-import FoodDialog from './FoodDialog/FoodDialog';
+import { FoodDialog } from './FoodDialog/FoodDialog';
 import Order from './Order/Order';
 import { useOpenFood } from './Hooks/useOpenFood';
 import { useOrders } from './Hooks/useOrders';

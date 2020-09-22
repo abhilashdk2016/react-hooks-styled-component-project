@@ -3,6 +3,8 @@ import React from 'react';
 import { FoodLabel } from '../Menu/FoodGrid';
 import { pizzaRed } from '../Styles/colors';
 import { Title } from '../Styles/title';
+import { QuantityInput } from './QuantityInput';
+import { useQuantity  } from '../Hooks/useQuantity';
 import { formatPrice } from '../Data/FoodData';
 
 const Dialog = styled.div`
@@ -48,6 +50,7 @@ const DialogBannerName = styled(FoodLabel)`
 export const DialogContent = styled.div`
     overflow: auto;
     min-height: 100px;
+    padding: 0px 40px;
 `;
 
 export const DialogFooter = styled.div`
@@ -69,20 +72,29 @@ export const ConfirmButton = styled(Title)`
     background-color: ${pizzaRed}
 `;
 
-const FoodDialog = ({openFood, setOpenFood, setOrders, orders}) => {
-    const order = openFood ? { ...openFood } : {};
-    return openFood ? <>
+const FoodDialogContainer = ({openFood, setOpenFood, setOrders, orders}) => {
+    const quantity = useQuantity(openFood && openFood.quantity);
+    const order = { ...openFood, quantity: quantity.value };
+    const getPrice = order => {
+        return order.quantity * order.price;
+    }
+    return <>
         <DialogShadow onClick={() => { setOpenFood(null) }}/>
         <Dialog>
             <DialogBanner img={openFood.img}>
                 <DialogBannerName>{openFood.name}</DialogBannerName>
             </DialogBanner>
-            <DialogContent />
+            <DialogContent>
+                <QuantityInput quantity={quantity}/>
+            </DialogContent>
             <DialogFooter>
-<ConfirmButton onClick={() => { setOrders([...orders, order]); setOpenFood(null);}}>Add to Cart: ${openFood.price}</ConfirmButton>
+<ConfirmButton onClick={() => { setOrders([...orders, order]); setOpenFood(null);}}>Add to Cart: ${formatPrice(getPrice(order))}</ConfirmButton>
             </DialogFooter>
         </Dialog>
-    </> : null
+    </>
 }
 
-export default FoodDialog;
+export function FoodDialog(props) {
+    if(!props.openFood) return null;
+    return <FoodDialogContainer {...props} />
+};
