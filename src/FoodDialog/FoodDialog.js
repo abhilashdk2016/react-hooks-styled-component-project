@@ -5,7 +5,9 @@ import { pizzaRed } from '../Styles/colors';
 import { Title } from '../Styles/title';
 import { QuantityInput } from './QuantityInput';
 import { useQuantity  } from '../Hooks/useQuantity';
+import { useToppings  } from '../Hooks/useToppings';
 import { formatPrice } from '../Data/FoodData';
+import Toppings from './Toppings';
 
 const Dialog = styled.div`
     width: 500px;
@@ -51,6 +53,7 @@ export const DialogContent = styled.div`
     overflow: auto;
     min-height: 100px;
     padding: 0px 40px;
+    padding-bottom: 80px;
 `;
 
 export const DialogFooter = styled.div`
@@ -74,10 +77,17 @@ export const ConfirmButton = styled(Title)`
 
 const FoodDialogContainer = ({openFood, setOpenFood, setOrders, orders}) => {
     const quantity = useQuantity(openFood && openFood.quantity);
-    const order = { ...openFood, quantity: quantity.value };
+    const toppings = useToppings(openFood.toppings);
+    const order = { ...openFood, quantity: quantity.value, toppings: toppings.toppings };
+
+    const pricePerTopping = 0.5;
+
     const getPrice = order => {
-        return order.quantity * order.price;
+        return order.quantity * (order.price * order.toppings.filter(t => t.checked).length * pricePerTopping);
     }
+
+    const hasToppings = food => food.section == 'Pizza';
+
     return <>
         <DialogShadow onClick={() => { setOpenFood(null) }}/>
         <Dialog>
@@ -86,6 +96,13 @@ const FoodDialogContainer = ({openFood, setOpenFood, setOrders, orders}) => {
             </DialogBanner>
             <DialogContent>
                 <QuantityInput quantity={quantity}/>
+                {
+                    hasToppings(openFood) &&
+                    <>
+                        <h3>Would you like toppings?</h3>
+                        <Toppings {...toppings}/>
+                    </>
+                }
             </DialogContent>
             <DialogFooter>
 <ConfirmButton onClick={() => { setOrders([...orders, order]); setOpenFood(null);}}>Add to Cart: {formatPrice(getPrice(order))}</ConfirmButton>

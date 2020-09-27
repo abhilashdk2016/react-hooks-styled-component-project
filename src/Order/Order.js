@@ -33,9 +33,16 @@ const OrderItem = styled.div`
     justify-content: space-between;
 `;
 
+const DetailItem = styled.div`
+    color: gray;
+    font-size: 10px;
+`;
+
 const Order = ({ orders}) => {
+    const pricePerTopping = 0.5;
+
     const getPrice = order => {
-        return order.quantity * order.price;
+        return order.quantity * (order.price * order.toppings.filter(t => t.checked).length * pricePerTopping);
     }
 
     const subTotal = orders.reduce((total, order) => {
@@ -64,6 +71,14 @@ const Order = ({ orders}) => {
                                     <div></div>
                                     <div>{formatPrice(getPrice(order))}</div>
                                 </OrderItem>
+                                <DetailItem>
+                                    {
+                                        order.toppings
+                                            .filter(t => t.checked)
+                                            .map(topping => topping.name)
+                                            .join(", ")
+                                    }
+                                </DetailItem>
                             </OrderContainer>
                         ))
                     }
