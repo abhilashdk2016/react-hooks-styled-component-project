@@ -6,8 +6,10 @@ import { Title } from '../Styles/title';
 import { QuantityInput } from './QuantityInput';
 import { useQuantity  } from '../Hooks/useQuantity';
 import { useToppings  } from '../Hooks/useToppings';
+import { useChoice } from '../Hooks/useChoice';
 import { formatPrice } from '../Data/FoodData';
 import Toppings from './Toppings';
+import { Choices } from './Choices';
 
 const Dialog = styled.div`
     width: 500px;
@@ -28,7 +30,7 @@ const Dialog = styled.div`
 const DialogBanner = styled.div`
     min-height: 200px;
     margin-bottom: 20px;
-    ${ ( { img }) => `background-image: url(${img});`}
+    ${ ( { img }) => (img ? `background-image: url(${img});` : `min-height: 75px`)}
     background-position: center;
     background-size: cover;
 `;
@@ -44,7 +46,7 @@ const DialogShadow = styled.div`
 `;
 
 const DialogBannerName = styled(FoodLabel)`
-    top: 100px;
+    top: ${ ( { img }) => (img ? `100px` : `20px`)};
     font-size: 30px;
     padding: 5px 40px;
 `;
@@ -72,18 +74,25 @@ export const ConfirmButton = styled(Title)`
     text-align: center;
     width: 200px;
     cursor: pointer; 
-    background-color: ${pizzaRed}
+    background-color: ${pizzaRed};
+    ${({disabled}) => disabled && 
+    `
+        opacity: .5;
+        background-color: grey;
+        pointer-events: none;
+    `}
 `;
 
 const FoodDialogContainer = ({openFood, setOpenFood, setOrders, orders}) => {
     const quantity = useQuantity(openFood && openFood.quantity);
     const toppings = useToppings(openFood.toppings);
-    const order = { ...openFood, quantity: quantity.value, toppings: toppings.toppings };
+    const choiceRadio = useChoice(openFood.choice);
+    const order = { ...openFood, quantity: quantity.value, toppings: toppings.toppings, choice: choiceRadio.value };
 
     const pricePerTopping = 0.5;
 
     const getPrice = order => {
-        return order.quantity * (order.price * order.toppings.filter(t => t.checked).length * pricePerTopping);
+        return order.quantity * (order.price + order.toppings.filter(t => t.checked).length * pricePerTopping);
     }
 
     const hasToppings = food => food.section == 'Pizza';
@@ -103,9 +112,16 @@ const FoodDialogContainer = ({openFood, setOpenFood, setOrders, orders}) => {
                         <Toppings {...toppings}/>
                     </>
                 }
+                {
+                    openFood.choices && <Choices openFood={openFood} choiceRadio={choiceRadio} />
+                }
             </DialogContent>
             <DialogFooter>
-<ConfirmButton onClick={() => { setOrders([...orders, order]); setOpenFood(null);}}>Add to Cart: {formatPrice(getPrice(order))}</ConfirmButton>
+                <ConfirmButton 
+                    onClick={() => { setOrders([...orders, order]); setOpenFood(null);}} 
+                    disabled={openFood.choices && !choiceRadio.value}>
+                    Add to Cart: {formatPrice(getPrice(order))}
+                </ConfirmButton>
             </DialogFooter>
         </Dialog>
     </>

@@ -42,7 +42,7 @@ const Order = ({ orders}) => {
     const pricePerTopping = 0.5;
 
     const getPrice = order => {
-        return order.quantity * (order.price * order.toppings.filter(t => t.checked).length * pricePerTopping);
+        return order.quantity * (order.price + order.toppings.filter(t => t.checked).length * pricePerTopping);
     }
 
     const subTotal = orders.reduce((total, order) => {
@@ -79,6 +79,9 @@ const Order = ({ orders}) => {
                                             .join(", ")
                                     }
                                 </DetailItem>
+                                {
+                                    order.choice && <DetailItem>{order.choice}</DetailItem>
+                                }
                             </OrderContainer>
                         ))
                     }
