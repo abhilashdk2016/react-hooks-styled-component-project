@@ -87,7 +87,16 @@ const FoodDialogContainer = ({openFood, setOpenFood, setOrders, orders}) => {
     const quantity = useQuantity(openFood && openFood.quantity);
     const toppings = useToppings(openFood.toppings);
     const choiceRadio = useChoice(openFood.choice);
+    const isEditing = openFood.index > -1;
+
     const order = { ...openFood, quantity: quantity.value, toppings: toppings.toppings, choice: choiceRadio.value };
+
+    const editOrder = () => {
+        const newOrders = [...orders];
+        newOrders[openFood.index] = order;
+        setOrders(newOrders);
+        setOpenFood(null);
+    }
 
     const pricePerTopping = 0.5;
 
@@ -95,7 +104,7 @@ const FoodDialogContainer = ({openFood, setOpenFood, setOrders, orders}) => {
         return order.quantity * (order.price + order.toppings.filter(t => t.checked).length * pricePerTopping);
     }
 
-    const hasToppings = food => food.section == 'Pizza';
+    const hasToppings = food => food.section === 'Pizza';
 
     return <>
         <DialogShadow onClick={() => { setOpenFood(null) }}/>
@@ -118,9 +127,9 @@ const FoodDialogContainer = ({openFood, setOpenFood, setOrders, orders}) => {
             </DialogContent>
             <DialogFooter>
                 <ConfirmButton 
-                    onClick={() => { setOrders([...orders, order]); setOpenFood(null);}} 
+                    onClick={isEditing ? editOrder : () => { setOrders([...orders, order]); setOpenFood(null);}} 
                     disabled={openFood.choices && !choiceRadio.value}>
-                    Add to Cart: {formatPrice(getPrice(order))}
+                    {isEditing ? 'Update Order:' : 'Add to Cart:'} {formatPrice(getPrice(order))}
                 </ConfirmButton>
             </DialogFooter>
         </Dialog>

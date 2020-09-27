@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { pizzaRed } from '../Styles/colors';
-import { Title } from '../Styles/title';
 
 const ToppingGrid = styled.div`
     display: grid;

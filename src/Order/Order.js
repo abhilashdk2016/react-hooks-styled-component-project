@@ -29,7 +29,7 @@ const OrderContainer = styled.div`
 const OrderItem = styled.div`
     padding: 10px 0px;
     display: grid;
-    grid-template-columns: 20px 150px 20px 60px;
+    grid-template-columns: 20px 150px 20px 20px 60px;
     justify-content: space-between;
 `;
 
@@ -38,7 +38,7 @@ const DetailItem = styled.div`
     font-size: 10px;
 `;
 
-const Order = ({ orders}) => {
+const Order = ({ orders, setOrders, setOpenFood }) => {
     const pricePerTopping = 0.5;
 
     const getPrice = order => {
@@ -52,6 +52,12 @@ const Order = ({ orders}) => {
     const tax = subTotal * 0.07;
     const total = subTotal + tax;
 
+    const deleteItem = index => {
+        const newOrders = [...orders];
+        newOrders.splice(index, 1);
+        setOrders(newOrders);
+    }
+
     return <OrderStyled>
         {
             orders.length === 0 
@@ -63,12 +69,21 @@ const Order = ({ orders}) => {
                         Your Orders:
                     </OrderContainer>
                     {
-                        orders.map(order => (
+                        orders.map((order, index) => (
                             <OrderContainer>
                                 <OrderItem>
                                     <div>{order.quantity}</div>
                                     <div>{order.name}</div>
-                                    <div></div>
+                                    <div>
+                                        <span role="img" aria-label="Delete Order" style={{cursor: "pointer", marginRight: "10px"}}
+                                        onClick={e => { e.stopPropagation(); deleteItem(index)}}
+                                        >🗑️</span>
+                                    </div>
+                                    <div>
+                                        <span role="img" aria-label="Edit Order" style={{cursor: "pointer"}}
+                                            onClick={() => setOpenFood({...order, index})}
+                                            >✏️</span>
+                                    </div>
                                     <div>{formatPrice(getPrice(order))}</div>
                                 </OrderItem>
                                 <DetailItem>

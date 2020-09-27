@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { GlobalStyle } from './Styles/globalStyle';
 import Navbar from './Navbar/Navbar';
 import { Banner } from './Banner/Banner';
@@ -18,7 +18,7 @@ function App() {
       <GlobalStyle />
       <FoodDialog {...openFood} {...orders}/>
       <Navbar />
-      <Order {...orders}/>
+      <Order {...orders} {...openFood}/>
       <Banner />
       <Menu {...openFood} />
     </>
