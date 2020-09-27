@@ -38,7 +38,7 @@ const DetailItem = styled.div`
     font-size: 10px;
 `;
 
-const Order = ({ orders, setOrders, setOpenFood }) => {
+const Order = ({ orders, setOrders, setOpenFood, loggedIn, login }) => {
     const pricePerTopping = 0.5;
 
     const getPrice = order => {
@@ -121,7 +121,14 @@ const Order = ({ orders, setOrders, setOpenFood }) => {
         }
         
         <DialogFooter>
-            <ConfirmButton>
+            <ConfirmButton onClick={() => {
+                    if(loggedIn) {
+                        console.log('Logged In')
+                    } else {
+                        login();
+                    }
+                }
+            }>
                 Checkout
             </ConfirmButton>
         </DialogFooter>
