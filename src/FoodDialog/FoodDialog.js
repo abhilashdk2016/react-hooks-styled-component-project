@@ -11,20 +11,19 @@ import { formatPrice } from '../Data/FoodData';
 import Toppings from './Toppings';
 import { Choices } from './Choices';
 
-const Dialog = styled.div`
+export const Dialog = styled.div`
     width: 500px;
     background-color: white;
     position: fixed;
     top: 75px;
-    z-index: 5;
+    z-index: 11;
     max-height: calc(100% - 100px);
     left: calc(50% - 250px);
     border-radius: 5px;
     box-shadow: 0px 0px 2px 0px grey;
     overflow: hidden;
-
     display: flex;
-    flex-direction: column
+    flex-direction: column;
 `;
 
 const DialogBanner = styled.div`
@@ -35,14 +34,14 @@ const DialogBanner = styled.div`
     background-size: cover;
 `;
 
-const DialogShadow = styled.div`
+export const DialogShadow = styled.div`
     position: fixed;
     height: 100%;
     width: 100%;
     top: 0px;
     background-color: black;
     opacity: 0.7;
-    z-index: 4;
+    z-index: 10;
 `;
 
 const DialogBannerName = styled(FoodLabel)`

@@ -65,7 +65,7 @@ const sendOrder = (orders, { email, displayName }) => {
     });
 }
 
-const Order = ({ orders, setOrders, setOpenFood, loggedIn, login }) => {
+const Order = ({ orders, setOrders, setOpenFood, loggedIn, login, setOpenOrderDialog }) => {
     const pricePerTopping = 0.5;
 
     const getPrice = order => {
@@ -147,18 +147,21 @@ const Order = ({ orders, setOrders, setOpenFood, loggedIn, login }) => {
                 </OrderContent>
         }
         
-        <DialogFooter>
-            <ConfirmButton onClick={() => {
-                    if(loggedIn) {
-                        sendOrder(orders, loggedIn);
-                    } else {
-                        login();
-                    }
-                }
-            }>
-                Checkout
-            </ConfirmButton>
-        </DialogFooter>
+        {
+            orders.length > 0 && <DialogFooter>
+                <ConfirmButton onClick={() => {
+                            if(loggedIn) {
+                                sendOrder(orders, loggedIn);
+                                setOpenOrderDialog(true);
+                            } else {
+                                login();
+                            }
+                        }
+                    }>
+                        Checkout
+                    </ConfirmButton>
+            </DialogFooter>
+        }
     </OrderStyled>
 }
 
