@@ -80,6 +80,7 @@ export const ConfirmButton = styled(Title)`
         background-color: grey;
         pointer-events: none;
     `}
+    z-index: 10;
 `;
 
 const FoodDialogContainer = ({openFood, setOpenFood, setOrders, orders}) => {

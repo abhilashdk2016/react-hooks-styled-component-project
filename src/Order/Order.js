@@ -12,7 +12,7 @@ const OrderStyled = styled.div`
     background-color: white;
     height: calc(100% - 48px);
     box-shadow: 4px 0px 5px 4px grey;
-    z-index: 10;
+    z-index: 9;
     display: flex;
     flex-direction: column;
 `;
